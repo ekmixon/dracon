@@ -7,7 +7,7 @@
   "author": "Chris Novakovic",
   "license": "ISC",
   "dependencies": {
-    "await-spawn": "^4.0.1",
+    "await-spawn": "^4.0.2",
     "filehound": "^1.17.4"
   }
 }

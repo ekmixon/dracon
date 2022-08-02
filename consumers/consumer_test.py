@@ -52,11 +52,9 @@ class TestConsumer(unittest.TestCase):
             original_results=scan_results,
         )
 
-        f = open(self.config['pvc_location'] + "example_response.pb", "wb")
-        scan_proto_string = enriched_scan_results.SerializeToString()
-        f.write(scan_proto_string)
-        f.close()
-
+        with open(self.config['pvc_location'] + "example_response.pb", "wb") as f:
+            scan_proto_string = enriched_scan_results.SerializeToString()
+            f.write(scan_proto_string)
         scan_results = engine_pb2.LaunchToolResponse(
             scan_info=engine_pb2.ScanInfo(
                 scan_uuid='dd1794f2-544d-456b-a45a-a2bec53633b1',

@@ -13,7 +13,7 @@ class StdoutJsonConsumer(Consumer):
     def __init__(self, config: dict):
         logger.info("Starting Consumer")
         self.pvc_location = config.pvc_location
-        logger.info("Reading from %s" % self.pvc_location)
+        logger.info(f"Reading from {self.pvc_location}")
 
         if (self.pvc_location is None):
             raise AttributeError("PVC claim location is missing")
@@ -82,7 +82,7 @@ def main():
     args = parser.parse_args()
     ec = StdoutJsonConsumer(args)
     try:
-        logger.info('Loading results from %s' % str(ec.pvc_location))
+        logger.info(f'Loading results from {str(ec.pvc_location)}')
         collected_results, raw = ec.load_results()
         logger.info("gathered %s results", len(collected_results))
         logger.info("Reading raw: %s ", raw)

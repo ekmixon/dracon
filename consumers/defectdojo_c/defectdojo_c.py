@@ -106,18 +106,22 @@ class DefectDojoConsumer(Consumer):
                     first_found = scan.scan_info.scan_start_time.ToJsonString()
                     false_positive = False
                 else:
-                    logger.debug("issue %s is enriched!" % iss.raw_issue.title)
+                    logger.debug(f"issue {iss.raw_issue.title} is enriched!")
                     issue = iss.raw_issue
                     first_found = iss.first_seen.ToJsonString()
                     false_positive = iss.false_positive
                     scan = sc.original_results
                     if iss.count > 1:
-                        logger.debug('Issue %s is a duplicate, count= %s, skipping' %
-                                     (issue.title, iss.count))
+                        logger.debug(
+                            f'Issue {issue.title} is a duplicate, count= {iss.count}, skipping'
+                        )
+
                         continue
                     if false_positive:
                         logger.debug(
-                            'Issue %s has been marked as a false positive, skipping' % issue.title)
+                            f'Issue {issue.title} has been marked as a false positive, skipping'
+                        )
+
                         continue
 
                 data = {
@@ -180,17 +184,17 @@ def main():
         args = parser.parse_args()
         dd = DefectDojoConsumer(args)
     except AttributeError as e:
-        raise Exception('A required argument is missing: ' + str(e))
+        raise Exception(f'A required argument is missing: {str(e)}')
 
-    logger.info('Loading results from %s' % str(dd.pvc_location))
+    logger.info(f'Loading results from {str(dd.pvc_location)}')
     collected_results, raw = dd.load_results()
     if len(collected_results) == 0:
         raise Exception('Unable to load results from the filesystem')
 
-    logger.info("gathered %s results" % len(collected_results))
-    logger.info("Reading raw: %s " % raw)
+    logger.info(f"gathered {len(collected_results)} results")
+    logger.info(f"Reading raw: {raw} ")
     dd.send_results(collected_results, raw)
-    logger.info('Done, processed %s records!' % dd.processed_records)
+    logger.info(f'Done, processed {dd.processed_records} records!')
 
 
 if __name__ == '__main__':

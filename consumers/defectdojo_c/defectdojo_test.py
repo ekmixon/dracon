@@ -98,15 +98,12 @@ class DefectDojoConsumerTest(unittest.TestCase):
         self.raw, _ = tempfile.mkstemp(
             prefix="raw_", dir=self.raw_dtemp, suffix=".pb")
 
-        f = open(self.enriched, "wb")
-        scan_proto_string = enriched_scan_results.SerializeToString()
-        f.write(scan_proto_string)
-        f.close()
-
-        f = open(self.raw, "wb")
-        scan_proto_string = scan_results.SerializeToString()
-        f.write(scan_proto_string)
-        f.close()
+        with open(self.enriched, "wb") as f:
+            scan_proto_string = enriched_scan_results.SerializeToString()
+            f.write(scan_proto_string)
+        with open(self.raw, "wb") as f:
+            scan_proto_string = scan_results.SerializeToString()
+            f.write(scan_proto_string)
 
     def tearDown(self):
         shutil.rmtree(self.raw_dtemp)

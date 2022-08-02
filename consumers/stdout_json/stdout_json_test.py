@@ -17,7 +17,7 @@ class Config:
 
 class TestJSONConsumer(unittest.TestCase):
     
-    def setUp(self):    
+    def setUp(self):
         self.config = Config()
         scan_start_time = Timestamp()
         scan_start_time.FromJsonString("1991-01-01T00:00:00Z")
@@ -62,15 +62,12 @@ class TestJSONConsumer(unittest.TestCase):
         self.raw, _ = tempfile.mkstemp(
             prefix="raw_", dir=self.raw_dtemp, suffix=".pb")
 
-        f = open(self.enriched, "wb")
-        scan_proto_string = enriched_scan_results.SerializeToString()
-        f.write(scan_proto_string)
-        f.close()
-
-        f = open(self.raw, "wb")
-        scan_proto_string = scan_results.SerializeToString()
-        f.write(scan_proto_string)
-        f.close()
+        with open(self.enriched, "wb") as f:
+            scan_proto_string = enriched_scan_results.SerializeToString()
+            f.write(scan_proto_string)
+        with open(self.raw, "wb") as f:
+            scan_proto_string = scan_results.SerializeToString()
+            f.write(scan_proto_string)
 
     def tearDown(self):
         shutil.rmtree(self.raw_dtemp)

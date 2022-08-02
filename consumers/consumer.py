@@ -31,9 +31,7 @@ class Consumer(ABC):
         """
 
         scan_results = engine_pb2.EnrichedLaunchToolResponse()
-        collected_results = self.load_files(scan_results, self.pvc_location)
-
-        return collected_results
+        return self.load_files(scan_results, self.pvc_location)
 
     @abstractmethod
     def send_results(self, collected_results: list):
@@ -45,7 +43,7 @@ class Consumer(ABC):
         for scan in collected_results:
             raw_scan = scan.original_results
             scan_time = raw_scan.scan_info.scan_start_time.ToJsonString()
-            logger.info('Scan: ' + raw_scan.tool_name + ' run at ' + scan_time)
+            logger.info(f'Scan: {raw_scan.tool_name} run at {scan_time}')
             for issue in raw_scan.issues:
                 logger.info('Issue: %s', str(issue))
 
@@ -76,7 +74,7 @@ class Consumer(ABC):
                     # Note: here skipping is important,
                     #  the results dir might have all sorts of protobuf messages that don't
                     #  match the type provided
-        if len(collected_files) == 0:
+        if not collected_files:
             raise SyntaxError(
                 'No valid results were found in the provided directory')
 

@@ -8,6 +8,6 @@
   "license": "ISC",
   "dependencies": {
     "await-spawn": "^4.0.1",
-    "filehound": "^1.17.4"
+    "filehound": "^1.17.6"
   }
 }
